@@ -2,24 +2,26 @@
 app.shoppingCart = {
   initialize: function(){
     console.log("Initializing shoppingCart ");
-    // start with an empty Array of items
-    this.items = {};
+    this.items = []; // this is the solution to this.items.push not being a function? because 'push' can't be invoked on associatives?
   },
 
-  add_item: function(name, price){
-    this.items.push([ name: name, cost: cost, weight: weight, size: size ]);
+  addItem: function(name, price, weight, size){
+    this.items.push({ name: name, cost: price, weight: weight, size: size });
   },
 
   calculateShipping: function(item){
     var shipping = 0;
-    var weight = item.weight || 5;
+    var weight = item.weight || 5; //how do we derive "item" from "items"? line 53?
     if(weight < 50){
-      shipping += 5;
+      shipping += 0;
     } else {
       shipping += 10
     }
 
     switch(item.size){
+      case "small";
+      shipping += 0;
+      break;
       case "large":
         shipping += 50;
         break;
@@ -33,6 +35,7 @@ app.shoppingCart = {
   },
 
   subtotal: function(){
+    var cost = 0.0;
     this.items.forEach(function(item){
       cost = cost + item.cost;
     })
@@ -46,7 +49,7 @@ app.shoppingCart = {
   totalShipping: function() {
     var shipping = 100.00;
     var self = this; // do not change. This line is needed for call to calculateShipping below
-    this.items.for_each(function(item){
+    this.items.forEach(function(item){
       shipping = shipping + self.calculateShipping();
     })
     return shipping;
